@@ -1,0 +1,3 @@
+page Ideas:
+	- page to setup events on the discord. As of right now it's seems like it's
+		gonna be hard to get people together at the same time on a call.
