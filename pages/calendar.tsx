@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
-import Month from '../components/Month'
+import CalendarBG from '../components/CalendarBG'
 
 const Calendar: NextPage = () => {
   return (
 		<div>
-			<Month days={31}/>
+			<CalendarBG />
     </div>
   )
 }
