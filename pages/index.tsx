@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <Menu isMenuOpen={isMenuOpen} setMenuOpen={setMenuOpen}></Menu>
       
         <div className="flex justify-center w-screen p-2 text-brand-500 text-3xl font-bold">
-          Upcoming Events!
+          GroundUp Dev
         </div>
       </div>
     </div>
