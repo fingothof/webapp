@@ -1,35 +1,28 @@
+// THIS IS LOOKING REAL USELESS RIGHT NOW (REDUNDANT PERHAPS)
+
 import * as React from "react";
 import Daybox from "./Daybox";
-import {useState, useEffect} from 'react'
 
 type AppProps = {
-    days: number,
-    month: {name: sting,index: number},
-    info: any
+    year:number,
+    month: number,
+    data: Array<string>,
 };
 
-let x = () => {
-
-}
-
-export default Month = ({ days }: AppProps) => {
-	let month = 'july'
-
+let Month = ({ year,month,data }: AppProps) => {
 	let makeDays = () =>{
 		let comps = []
-		for(let i=1;i<=days;i++){
-			comps.push(<Daybox year={2022} month={month} day={i}/>)
+		for(let i=0;i<data.length;i++){
+			comps.push(<Daybox year={year} month={month} day={i} data={data[i]}/>)
 		}
-		console.log(comps)
 		return comps
 	}
 
-  return (
-    <div>
-			{month}
-      <div style={{width:"100%",border:"solid"}}></div>
-				{makeDays()}
+    return (
+    <div id="Month" >
+        {makeDays()}
     </div>
-  );
+    );
 };
 
+export default Month
