@@ -9,12 +9,19 @@ let year = 2022
 //TYPES
 type Data = Map<Object, Array<Array<string>>>
 
+//VARS
+let today = new Date()
+let bounds = {
+    min: { year:2022, month:0},
+    max: { year:2024, month:11}
+}
+
 
 //Creates the days and months
 let setData = (data:any) : Data => {
     //maybe rethink the data struct here
     let calData: Data= new Map()
-    for (let year=2022;year<2024;year++){
+    for (let year=bounds.min.year;year<=bounds.max.year;year++){
         for(let i=0;i<12;i++){
             let days = new Date(year,i+1,0).getDate()
             let currArr : Array<any> = []
@@ -27,6 +34,7 @@ let setData = (data:any) : Data => {
             calData.set(year.toString() + i.toString(),currArr)
         }
     }
+    console.log(calData)
     return calData
 }
 
@@ -42,7 +50,6 @@ let fetchData = (async () => {
 //seems redundant
 let createMonthsComp = (year:number, month:number, data: Array<string>|undefined) : ReactNode =>{
     let monthComponents: ReactNode
-    console.log(data)
     if(data){
          monthComponents = <Month year={year} month={month} data={data} />
     }
@@ -55,13 +62,16 @@ let formatMonth = (month: number) => {
 }
 
 let CalendarBG = () =>{
-    let [month,setMonth] = useState(0) 
+    let [month,setMonth] = useState(-1) 
     let [component,setComponent] = useState<ReactNode>(<div/>) 
 
     useEffect(() => {
+        if(month == -1){
+            setMonth(today.getMonth())
+        }
         //dubious, without checking for month, this is infinitely called
         //temp data for month <=>
-        if(fetchedData && month >= 0 && month <= 24){
+        if(fetchedData && month >= 0){
             let year = (2022 + Math.floor(month/12))
             let currentMonth = (month%12)
             let currentData = fetchedData.get(year.toString()+currentMonth.toString())
@@ -70,11 +80,19 @@ let CalendarBG = () =>{
         }
     },[month])
 
+    //min and max months to be displayed
+    let upperBound = ((bounds.max.year - bounds.min.year) * 12 + bounds.max.month)
+    let lowerBound = 0
+
     return(
         <div>
-            <button onClick={() => setMonth(month-1)} > &lt; </button>
+            <button onClick={() => setMonth(month-1)} > 
+                {month > lowerBound ? <p> &lt; </p> : <p></p>}
+            </button>
             { year + Math.floor(month/12) }  {formatMonth(month)} 
-            <button onClick={() => setMonth(month+1)} > &gt; </button>
+            <button onClick={() => setMonth(month+1)} > 
+                {month < (upperBound) ? <p> &gt; </p> : <p></p>}
+            </button>
             {component}
         </div>
     )
