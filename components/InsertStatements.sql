@@ -1,0 +1,3 @@
+INSERT INTO Users(UserID, Username) VALUES (1, 'First User');
+INSERT INTO EventGroups(EventGroupID, EventGroupName, FKUserID) VALUES (1, 'First Event Group', 1);
+INSERT INTO Events(EventID, EventName, EventStartDateTime, EventEndDateTime, FKEventGroupID, FKUserID) VALUES(1, 'First Event', STR_TO_DATE('2022-10-2 01:00:00', '%Y-%m-%d %h:%i:%s'), STR_TO_DATE('2022-10-2 02:00:00', '%Y-%m-%d %h:%i:%s'), 1, 1);
