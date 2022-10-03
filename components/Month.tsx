@@ -3,24 +3,16 @@ import Daybox from "./Daybox";
 import {useState, useEffect} from 'react'
 
 type AppProps = {
-  days: number;
+    days: number,
+    month: {name: sting,index: number},
+    info: any
 };
 
-//let times = (years:number) =>{
-	//let dates = new Map()
-	//for(let i=0;i<years;i++){
-		//let year = 2022 + i
-		//dates.set(year, new Map())
-		//for(let j=1;j<=12;j++){
-			//let days = new Date(year,j,0).getDate()
-			//dates.get(year).set(j,days)
-		//}
-	//}
-	//console.log(dates)
-//}
+let x = () => {
 
+}
 
-let Month = ({ days }: AppProps) => {
+export default Month = ({ days }: AppProps) => {
 	let month = 'july'
 
 	let makeDays = () =>{
@@ -41,4 +33,3 @@ let Month = ({ days }: AppProps) => {
   );
 };
 
-export default Month;
