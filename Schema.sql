@@ -1,5 +1,3 @@
-Schema
-
 CREATE TABLE Users(
     UserID INT PRIMARY KEY AUTO_INCREMENT,
     Username VARCHAR(100)

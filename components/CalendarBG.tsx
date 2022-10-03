@@ -67,25 +67,10 @@ let setupMonth = (data: Data, month: number, stateUpdate: Function) => {
     stateUpdate(component)
 }
 
-let dataStatus = () => {
-    
-}
-
 let CalendarBG = () =>{
     let [month,setMonth] = useState(-1) 
     let [component,setComponent] = useState<ReactNode>(<div/>) 
-    let [test,setTest] = useState(0)
 
-    useEffect(() =>{
-        if(!test){
-            setTest(1)
-            setupData(setComponent)
-        }
-        else{
-            console.log("wtf")
-        }
-    })
-    
     //min and max months to be displayed
     let upperBound = ((bounds.max.year - bounds.min.year) * 12 + bounds.max.month)
     let lowerBound = 0

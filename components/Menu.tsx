@@ -26,7 +26,7 @@ export const Menu = ({isMenuOpen, setMenuOpen} : AppProp) => {
         <Bars3Icon onClick={() => { setMenuOpen(!isMenuOpen)}} className='h-14 w-12 p-2 text-brand-50'></Bars3Icon>
         <div className='flex flex-col p-2'>
             {
-                menuItems.map(x =>  <MenuItem pageName={x}></MenuItem>)
+                menuItems.map(x =>  <MenuItem key={x} pageName={x}></MenuItem>)
             }
         </div>
     </div>)

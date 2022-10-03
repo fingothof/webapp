@@ -50,11 +50,11 @@ let Daybox = ({year,month,day,data} : AppProp) => {
                 <br/>
                 {
                     data.map((value) => {
-                        return (<p> { value } </p>)
+                        return (<p key={value}> { value } </p>)
                     })
                 }
 				{content.map((value) => (
-					<div> {value} </div>
+					<div key={value}> {value} </div>
 				))}
 				{display ? textArea : <div/>}
 			</div>
