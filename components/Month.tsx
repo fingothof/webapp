@@ -10,6 +10,7 @@ type AppProps = {
 };
 
 let Month = ({ year,month,data }: AppProps) => {
+
 	let makeDays = () =>{
 		let comps = []
 		for(let i=0;i<data.length;i++){
