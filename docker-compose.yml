@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+  redis-store:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - session-store:/data
   mysqldb:
     image: mysql
     restart: unless-stopped
@@ -15,6 +23,7 @@ services:
   app:
     depends_on:
       - mysqldb
+      - redis-store
     build: ./
     restart: unless-stopped
     env_file: ./.env
@@ -31,3 +40,4 @@ services:
 
 volumes: 
   db:
+  session-store:

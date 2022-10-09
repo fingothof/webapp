@@ -27,6 +27,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     database : process.env.MYSQLDB_DATABASE
   });
 
+  // send cookie id to redis.
+  // If present and session is valid return username.
   let [rows] = await connection.promise().query('SELECT * FROM Users');
   let temp: any = rows;
   
