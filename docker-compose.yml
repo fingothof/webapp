@@ -4,9 +4,10 @@ services:
   redis-store:
     image: redis:latest
     restart: always
+    env_file: ./.env
     ports:
       - '6379:6379'
-    command: redis-server --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --requirepass $REDIS_PASSWORD
     volumes:
       - session-store:/data
   mysqldb:
