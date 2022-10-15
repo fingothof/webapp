@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "setup": "docker-compose up -d && yarn db-migrate up",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -21,6 +22,8 @@
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.8",
+    "db-migrate": "^0.11.13",
+    "db-migrate-mysql": "^2.2.0",
     "eslint": "8.22.0",
     "eslint-config-next": "12.2.5",
     "postcss": "^8.4.16",

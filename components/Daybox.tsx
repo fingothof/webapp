@@ -5,15 +5,14 @@ type AppProp = {
 	year:number,
 	month: number,
 	day: number,
-    data:Array<string>
+    data:Array<Object>
 }
 
 let Daybox = ({year,month,day,data} : AppProp) => {
     let [content, setContent] = useState([""]);
     let [currentText, setCurrentText] = useState("")
     let [display, setDisplay] = useState(false);
-
-
+    
 	//proper way to do this? unsure.
 	let textArea = (
 		<div> 
@@ -28,6 +27,8 @@ let Daybox = ({year,month,day,data} : AppProp) => {
 			</button>
 		</div>
 	) 
+
+    console.log(content)
 
 	useEffect(() => {
 		if(content[content.length-1] != ""){
@@ -50,7 +51,7 @@ let Daybox = ({year,month,day,data} : AppProp) => {
                 <br/>
                 {
                     data.map((value) => {
-                        return (<p key={value}> { value } </p>)
+                        return (<p key={value.EventName}> { value.EventName } </p>)
                     })
                 }
 				{content.map((value) => (

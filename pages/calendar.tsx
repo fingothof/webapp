@@ -6,16 +6,15 @@ import mysql from 'mysql2';
 import CalendarBG from '../components/CalendarBG'
 
 interface Props {
-  userAgent?: string;
+  data?: string;
 }
 
-const Calendar: NextPage<Props> = ({userAgent}) => {
+const Calendar: NextPage<Props> = ({data}) => {
   
   return (
 		<div>
-      <div>{userAgent}</div>
-			<Month days={31}></Month>
-			<CalendarBG />
+      <div>TEST</div>
+			<CalendarBG data={data}/>
     </div>
   )
 }
@@ -23,18 +22,20 @@ const Calendar: NextPage<Props> = ({userAgent}) => {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   var connection = mysql.createConnection({
     connectionLimit: 4,
-    host     : process.env.DB_HOST,
+    port : process.env.MYSQLDB_LOCAL_PORT,
     user     : process.env.MYSQLDB_USER,
     password : process.env.MYSQLDB_ROOT_PASSWORD,
     database : process.env.MYSQLDB_DATABASE
   });
 
-  let [rows] = await connection.promise().query('SELECT * FROM Users');
-  let temp: any = rows;
+  let [rows] = await connection.promise().query('SELECT * FROM events');
+
+  //why does it need to be stringified?
+  let data: any = JSON.stringify(rows);
   
   return {
     props: {
-      userAgent: temp[0].Username
+      data: data
     }
 
   };

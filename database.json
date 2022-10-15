@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "driver": "mysql",
+        "user": {"ENV":"MYSQLDB_USER"},
+        "password": {"ENV":"MYSQLDB_ROOT_PASSWORD"},
+        "host":"localhost",
+        "port": 8888,
+        "database":"webapp"
+    }
+}
