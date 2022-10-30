@@ -8,18 +8,31 @@ type AppProp = {
     data:Array<Object>
 }
 
+let sendData = (body) =>{
+    let url = "http://localhost:3000"
+    //months/days are from 0 in data and from 1 in display
+    fetch(url + '/api/events',{
+        method:'POST',
+        body: body
+    })
+    .then((response) => response.json())
+}
+
 let Daybox = ({year,month,day,data} : AppProp) => {
-    let [content, setContent] = useState([""]);
     let [currentText, setCurrentText] = useState("")
     let [display, setDisplay] = useState(false);
-    
-	//proper way to do this? unsure.
+    let [content, setContent] = useState([]);
+
+    //Text box to add new lines
 	let textArea = (
 		<div> 
 			<textarea style={{width:"120px",height:"25px"}} onChange={(e) => setCurrentText(e.target.value)}/> 
 			<button onClick={() =>{
 				if(currentText != ""){
-					setContent([...content,currentText])
+                    setContent([...content,currentText])
+                    let key = year.toString() + "." + (month+1).toString() + "." + (day+1).toString() 
+                    let body = JSON.stringify({[key]: currentText})
+                    sendData(body)
 				}
 				setDisplay(!display)
 			}}>
@@ -28,41 +41,36 @@ let Daybox = ({year,month,day,data} : AppProp) => {
 		</div>
 	) 
 
-    console.log(content)
+    useEffect(() => {
+        if(!display){
+            setCurrentText("")
+        }
+    })
 
-	useEffect(() => {
-		if(content[content.length-1] != ""){
-			let url = "http://localhost:3000"
-            //months/days are from 0 in data and from 1 in display
-			let key = year.toString() + "." + (month+1).toString() + "." + (day+1).toString() 
-			fetch(url + '/api/events',{
-				method:'POST',
-				body: JSON.stringify({[key]: content[content.length-1]})
-			})
-			.then((response) => response.json())
-			.then((data) => console.log(data))
-		}
-	},[content])
-
-  return (
-    <div style={{float:"left",border:"solid",width:"170px",height:"100px"}}>
-			<div>
-				{day+1}
+    return (
+        <div style={{float:"left",border:"solid",width:"170px",height:"100px"}}>
+            <div>
+                {day+1}
                 <br/>
                 {
+                    //displays lines from db
                     data.map((value) => {
-                        return (<p key={value.EventName}> { value.EventName } </p>)
+                        return (<p key={value.id}> { value.name } </p>)
                     })
                 }
-				{content.map((value) => (
-					<div key={value}> {value} </div>
-				))}
-				{display ? textArea : <div/>}
-			</div>
-			<button onClick={() => setDisplay(!display)}> + </button>
-
-    </div>
-  );
+                {
+                    //displays newly added lines
+                    content.length != 0 ? 
+                    content.map((value) => {
+                        return (<p key={value}> { value } </p>)
+                    })
+                    : <div/>
+                }
+                {display ? textArea : <div/>}
+            </div>
+            <button onClick={() => setDisplay(!display)}> + </button>
+        </div>
+    );
 };
 
 export default Daybox;

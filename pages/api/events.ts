@@ -31,13 +31,12 @@ async function setEvent(req: NextApiRequest, res: NextApiResponse){
     });
     let newData = JSON.parse(req.body)
 
-    console.log(newData)
     let date = Object.keys(newData)[0]
 
-    let qry =`insert into events(name,date) values('${newData[date]}',STR_TO_DATE('${date}','%Y.%m.%d')`
-    console.log(qry)
+    let qry =`insert into events(name,date) values('${newData[date]}',STR_TO_DATE('${date}','%Y.%m.%d'))`
 
     connection.promise().query(qry).then( () => {
+        console.log('all is good')
         res.status(200)
     })
     .catch( (err) => {
@@ -47,16 +46,4 @@ async function setEvent(req: NextApiRequest, res: NextApiResponse){
 }
 
 function getEvents(res: NextApiResponse){
-	console.log("getting events")
-	fs.readFile('data/events.json',(err, data) => {
-		if(err) {
-			console.log(err)
-			res.status(500)	
-		}		
-		else{
-			//do we need to parse or is it redundant?
-			console.log(data)
-			res.status(200).send(data)
-		}
-	})
 }

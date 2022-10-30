@@ -14,7 +14,7 @@ let bounds = {
 }
 
 //Creates the days and months
-let setData = (data:any) : Data => {
+let formatData = (data:any) : Data => {
     //maybe rethink the data struct here
     let calData: Data= new Map()
     for (let year=bounds.min.year;year<=bounds.max.year;year++){
@@ -24,7 +24,7 @@ let setData = (data:any) : Data => {
             let currArr : Array<any> = []
             for(let j=0;j<days;j++){
                 //Keep in mind that months are 0-11 in code and 1-12 in db data
-                let info = findDay(year,i,j,data)
+                let info = findDay(year,i,j+1,data)
                 info ? currArr.push(info):
                             currArr.push([])
             }
@@ -35,19 +35,19 @@ let setData = (data:any) : Data => {
     return calData
 }
 
+//doubt it's the best way to insert data into the datastruct
 let findDay = (year:number,month:number,day:number, rows: Array<any>): Array<any> | null => {
     let matches = [] 
     for (let line of rows){
-        let dateStr = line.EventStartDateTime
+        let dateStr = line.date
         let date = new Date(Date.parse(dateStr))
-        if(date.getFullYear() == year && date.getMonth() == month && date.getDay() == day){
-           matches.push(line) 
+        if(date.getFullYear() == year && date.getMonth() == month && date.getDate() == day){
+            matches.push(line) 
         }
     }
     return matches.length ? matches : null
 }
 
-//seems redundant
 let createMonthsComp = (year:number, month:number, data: Array<string>|undefined) : ReactNode =>{
     let monthComponents: ReactNode
     if(data){
@@ -68,27 +68,32 @@ interface Props{
 let CalendarBG = (props: Props) =>{
     let [month,setMonth] = useState(-1) 
     let [component,setComponent] = useState<ReactNode>(<div/>) 
-    let jsonData = JSON.parse(props.data)
+    let [data, setData] = useState()
+
+    useEffect(() => {
+        if(!data){
+            let jsonData = JSON.parse(props.data)
+            setData(formatData(jsonData))
+        }
+        else{
+            let year = new Date().getFullYear()
+            let currentMonth = new Date().getMonth()
+            let currentData = data.get(year).get(currentMonth)
+            let comps = createMonthsComp(year,month,currentData)
+            setMonth(currentMonth)
+            setComponent(comps)
+        }
+    },[data])
 
     //min and max months to be displayed
     let upperBound = ((bounds.max.year - bounds.min.year) * 12 + bounds.max.month)
     let lowerBound = 0
 
     useEffect(() => {
-        console.log("reredering calendarBG")
-        let formattedMonthData = setData(jsonData)
-        if(month == -1){
-            let year = new Date().getFullYear()
-            let currentMonth = new Date().getMonth()
-            let currentData = formattedMonthData.get(year).get(currentMonth)
-            let comps = createMonthsComp(year,month,currentData)
-            setMonth(currentMonth)
-            setComponent(comps)
-        }
-        else{
+        if(data){
             let year =  bounds.min.year + Math.floor(month/12)
             let currentMonth = month%12
-            let currentData = formattedMonthData.get(year).get(currentMonth)
+            let currentData = data.get(year).get(currentMonth)
             let comps = createMonthsComp(year,month,currentData)
             setComponent(comps)
         }

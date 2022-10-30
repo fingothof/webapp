@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "setup": "docker-compose up -d && yarn db-migrate up",
+    "setup": "docker-compose -f docker-compose.dev.yml up -d && yarn db-migrate up",
+    "down":"docker-compose -f docker-compose.dev.yml down",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

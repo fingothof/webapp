@@ -1,6 +1,4 @@
 import type { NextPage } from 'next'
-import { AppContext } from 'next/app';
-import Month from '../components/Month'
 import { GetServerSideProps } from 'next';
 import mysql from 'mysql2';
 import CalendarBG from '../components/CalendarBG'
@@ -32,6 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   //why does it need to be stringified?
   let data: any = JSON.stringify(rows);
+  console.log(data)
   
   return {
     props: {
